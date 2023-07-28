@@ -4,5 +4,6 @@ he CSUN Map Quiz is an interactive web application that allows users to test the
 
 insturctions:
 1. Requires google maps api key
+2. On line 39 replace "Your Api Key" with your key.
 
 Demo:
