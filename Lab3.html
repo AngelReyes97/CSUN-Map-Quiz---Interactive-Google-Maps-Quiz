@@ -1,0 +1,564 @@
+<!DOCTYPE html>
+<html>
+    <head>
+    <title>Lab3</title>
+
+    <style>
+        body {
+            background-color: bisque;
+        }
+
+        h1{
+            text-align: left;
+            color: black;
+         
+        }
+        #map{
+            cursor: pointer;
+            height: 700px;
+            width: 56%;
+            margin-left: 44%;
+        }
+        #Quiz{
+          font-size: 1.5em;
+          font-weight: bold;
+          position: fixed;
+          
+        }
+        #scoreContainer {
+        position: fixed;
+        width: 200px;
+        height: 100px;
+        font-size: 2.0em;
+        margin-left: 65%;
+        color: blueviolet;
+        }
+   
+    </style>
+
+<script src="https://maps.googleapis.com/maps/api/js?key=Your API KEY&callback=CsunMap"></script>
+    <script>
+        
+window.addEventListener("load", Onstart);
+
+
+function Onstart(){
+   CsunMap()
+
+}
+
+
+function CsunMap() {
+ map = new google.maps.Map(document.getElementById('map'), {
+    center: {lat: 34.238736, lng: -118.5300},
+    zoom: 16.8,
+    disableDefaultUI:true,
+    gestureHandling: "none",
+    
+    styles:[
+        {
+            featureType: 'all',
+            elementType: 'labels',
+            stylers: [
+                {
+                    visibility: 'off'
+                }
+            ]
+            
+        },
+        {
+            featureType: 'road',
+            elementType: 'labels',
+            stylers: [
+                {
+                    visibility: 'on'
+                }
+            ]
+        }
+    ]
+
+  });
+
+  const LibraryCoordinates = [
+    { lat: 34.24039, lng: -118.53004},
+    { lat: 34.24039, lng: -118.52862},
+    { lat: 34.23991, lng: -118.52862},
+    { lat: 34.23991, lng: -118.52890},
+    { lat: 34.23977, lng: -118.52890},
+    { lat: 34.23976, lng: -118.52975},
+    { lat: 34.23990, lng: -118.52975},
+    { lat: 34.23991, lng: -118.53003}, 
+  ];
+  
+ const UniverityHallCoordinates = [
+    { lat: 34.24017, lng: -118.53222},
+    { lat: 34.24012, lng: -118.53191},
+    { lat: 34.23979, lng: -118.53198},
+    { lat: 34.23979, lng: -118.53199},
+    { lat: 34.23978, lng: -118.53199},
+    { lat: 34.239775963629505, lng: -118.53195756619262},
+    { lat: 34.23971498632377, lng: -118.53196024840143},
+    { lat: 34.23971221462336, lng: -118.53199176435554},
+    { lat: 34.23969675847871, lng: -118.53199272743099},
+    { lat: 34.23936886420811, lng: -118.53190712443497 },
+    { lat: 34.23932396252351, lng: -118.53222898949475},
+    { lat: 34.23968372965996, lng: -118.53229805637216},
+    { lat: 34.23969592512916, lng: -118.53222228397269},
+    { lat: 34.23971421832966, lng: -118.53222295452488 },
+    { lat: 34.23971477266899, lng: -118.53230207968542 },
+ ];
+
+ const NordhoffHallCoordinates = [
+    { lat: 34.23669494983048, lng: -118.5309273511888},
+    { lat: 34.236692178034026, lng: -118.53008379649407},
+    { lat: 34.2365907302305, lng: -118.53008312594189},
+    { lat: 34.23659017587059, lng: -118.53030843148373},
+    { lat: 34.23602417248312, lng: -118.53031111369411},
+    { lat: 34.23602361811949, lng: -118.53027490387488},
+    { lat: 34.23597427974016, lng: -118.53027490387488},
+    { lat: 34.23597483410415, lng: -118.53048746892478},
+    { lat: 34.23601363957318, lng: -118.53048746892478},
+    { lat: 34.236015857028015, lng: -118.53087303644429},
+    { lat: 34.236281396822804, lng: -118.53088443583776},
+    { lat: 34.236283059908644, lng: -118.53097563093804},
+    { lat: 34.23640058456254, lng: -118.53097428984317},
+    { lat: 34.236400030201374, lng: -118.53092936284526},
+
+ ];
+
+ const LiveOakHallCoordinates = [
+    { lat: 34.2383741909508, lng: -118.52875858620904},
+    { lat: 34.238374171434714, lng: -118.52767646985846 },
+    { lat: 34.23829323656258, lng: -118.52767512875404},
+    { lat: 34.23829268221386, lng: -118.52763489562156 },
+    { lat: 34.238203432024335, lng: -118.52763422506933 },
+    { lat: 34.238202323325744, lng: -118.52767579930624},
+    { lat: 34.23817349715699, lng: -118.52767512875404},
+    { lat: 34.238173750823044, lng: -118.528758705372},
+    { lat: 34.238261892346216, lng: -118.528758705372},
+    { lat: 34.23826133799732, lng: -118.52880027960887},
+    { lat: 34.23835114247376, lng: -118.52880027960887},
+    { lat: 34.23835058812545, lng: -118.528758705372},
+ ];
+
+ const UsuCompLabCoordinates = [
+    { lat: 34.23970126835372, lng: -118.52578569595053},
+    { lat: 34.239703485711416, lng: -118.52559123581025},
+    { lat: 34.23969073590382, lng: -118.52559056525806},
+    { lat: 34.2396896272248, lng: -118.52554362660348},
+    { lat: 34.239668562320766, lng: -118.52554362660348},
+    { lat: 34.2396691166604, lng: -118.52544170266789},
+    { lat: 34.23957377018732, lng: -118.5254423732201},
+    { lat: 34.239573215847045, lng: -118.52548730021803},
+    { lat: 34.23950004289863, lng: -118.52548730021803},
+    { lat: 34.23949948855787, lng: -118.52561135237649},
+    { lat: 34.23947066283327, lng: -118.52561537568972},
+    { lat: 34.23947177151516, lng: -118.52572199349079},
+    { lat: 34.2395017059209, lng: -118.52572467569962},
+    { lat: 34.23950115158014, lng: -118.5257890487116},
+    { lat: 34.239557694317845, lng: -118.52579038981598},
+    { lat: 34.23955991167935, lng: -118.5258245879786},
+    { lat: 34.23964084533371, lng: -118.52582525853082},
+    { lat: 34.23964029099389, lng: -118.52578770760718},
+ ];
+
+ const CsunLibrary = new google.maps.Polygon({
+    paths: LibraryCoordinates,
+    strokeOpacity: 0,
+    fillOpacity: 0,
+  });
+  CsunLibrary.setMap(map);
+
+
+  const UniverityHall = new google.maps.Polygon({
+    paths: UniverityHallCoordinates,
+    strokeOpacity: 0,
+    fillOpacity: 0,
+  });
+  UniverityHall.setMap(map);
+
+  const NordhoffHall = new google.maps.Polygon({
+    paths: NordhoffHallCoordinates,
+    strokeOpacity: 0,
+    fillOpacity: 0,
+  });
+  NordhoffHall.setMap(map);
+
+  const LiveOakHall = new google.maps.Polygon({
+    paths: LiveOakHallCoordinates,
+    strokeOpacity: 0,
+    fillOpacity: 0,
+  });
+  LiveOakHall.setMap(map);
+
+  const UsuCompLab = new google.maps.Polygon({
+    paths: UsuCompLabCoordinates,
+    strokeOpacity: 0,
+    fillOpacity: 0,
+  });
+  UsuCompLab.setMap(map);
+
+  let count = 0;
+  let libraryVisited = false;
+  let hallVisited = false;
+  let nordhoffVisited = false;
+  let LiveoakVisited = false;
+  let UsucompVisited = false;
+  let score = 0;
+  let wrong1 =false;
+  let wrong2 = false;
+  let wrong3 = false;
+  let wrong4 = false;
+  let wrong5 = false;
+
+  function correct (Building) {
+    
+   if(Building == CsunLibrary && libraryVisited == false)
+   {
+    Building.setOptions({strokeColor: 'Green'});
+    Building.setOptions({strokeOpacity: 0.8});
+    Building.setOptions({strokeWeight: 3});
+    Building.setOptions({fillColor: 'Green'});
+    Building.setOptions({fillOpacity: 0.4});
+    Building.setMap(map);
+    libraryVisited = true;
+    count++;
+    score++;
+   }
+   else if( Building == UniverityHall && hallVisited == false)
+    {
+      Building.setOptions({strokeColor: 'Green'});
+      Building.setOptions({strokeOpacity: 0.8});
+      Building.setOptions({strokeWeight: 3});
+      Building.setOptions({fillColor: 'Green'});
+      Building.setOptions({fillOpacity: 0.4});
+      Building.setMap(map);
+      hallVisited = true;
+     count++;
+     score++;
+    }
+    else if(Building == NordhoffHall && nordhoffVisited == false)
+    {
+      Building.setOptions({strokeColor: 'Green'});
+      Building.setOptions({strokeOpacity: 0.8});
+      Building.setOptions({strokeWeight: 3});
+      Building.setOptions({fillColor: 'Green'});
+      Building.setOptions({fillOpacity: 0.4});
+      Building.setMap(map);
+      nordhoffVisited = true;
+     count++;
+     score++;
+    }
+    else if (Building == LiveOakHall && LiveoakVisited == false)
+    {
+      Building.setOptions({strokeColor: 'Green'});
+      Building.setOptions({strokeOpacity: 0.8});
+      Building.setOptions({strokeWeight: 3});
+      Building.setOptions({fillColor: 'Green'});
+      Building.setOptions({fillOpacity: 0.4});
+      Building.setMap(map);
+      LiveoakVisited = true;
+     count++;
+     score++;
+    }
+    else if (Building == UsuCompLab && UsucompVisited == false)
+    {
+      Building.setOptions({strokeColor: 'Green'});
+      Building.setOptions({strokeOpacity: 0.8});
+      Building.setOptions({strokeWeight: 3});
+      Building.setOptions({fillColor: 'Green'});
+      Building.setOptions({fillOpacity: 0.4});
+      Building.setMap(map);
+      UsucompVisited = true;
+     count++;
+     score++;
+    }
+    buildQuiz(); 
+  }
+
+  function Wrong(Building) {
+    if(Building == CsunLibrary && libraryVisited == false)
+    {
+    Building.setOptions({strokeColor: 'Red'});
+    Building.setOptions({strokeOpacity: 0.8});
+    Building.setOptions({strokeWeight: 3});
+    Building.setOptions({fillColor: 'Red'});
+    Building.setOptions({fillOpacity: 0.3});
+    Building.setMap(map);
+    libraryVisited = true;
+    wrong1= true;
+    count++;
+    
+    }
+    else if(Building == UniverityHall && hallVisited == false)
+    {
+    Building.setOptions({strokeColor: 'Red'});
+    Building.setOptions({strokeOpacity: 0.8});
+    Building.setOptions({strokeWeight: 3});
+    Building.setOptions({fillColor: 'Red'});
+    Building.setOptions({fillOpacity: 0.3});
+    Building.setMap(map);
+    hallVisited = true;
+    wrong2 =true;
+    count++;
+    }
+    else if(Building == NordhoffHall && nordhoffVisited == false)
+    {
+      Building.setOptions({strokeColor: 'Red'});
+      Building.setOptions({strokeOpacity: 0.8});
+      Building.setOptions({strokeWeight: 3});
+      Building.setOptions({fillColor: 'Red'});
+      Building.setOptions({fillOpacity: 0.3});
+      Building.setMap(map);
+      nordhoffVisited = true;
+      wrong3 = true;
+     count++;
+    }
+    else if (Building == LiveOakHall && LiveoakVisited == false)
+    {
+      Building.setOptions({strokeColor: 'Red'});
+      Building.setOptions({strokeOpacity: 0.8});
+      Building.setOptions({strokeWeight: 3});
+      Building.setOptions({fillColor: 'Red'});
+      Building.setOptions({fillOpacity: 0.4});
+      Building.setMap(map);
+      LiveoakVisited = true;
+      wrong4 = true;
+     count++;
+     
+    }
+    else if (Building == UsuCompLab && UsucompVisited == false)
+    {
+      Building.setOptions({strokeColor: 'Red'});
+      Building.setOptions({strokeOpacity: 0.8});
+      Building.setOptions({strokeWeight: 3});
+      Building.setOptions({fillColor: 'Red'});
+      Building.setOptions({fillOpacity: 0.4});
+      Building.setMap(map);
+      UsucompVisited = true;
+      wrong5 = true;
+     count++;
+    }
+  
+    buildQuiz();
+  }
+  
+
+  const quizContainer = document.getElementById('Quiz');
+
+  let questions = [{
+    question: "1). What is the location of CSUN's library?",
+  },
+  {
+    question: "2). What is the location of University Hall?",
+  },
+  {
+    question: "3). What is the location of Nordhoff Hall?",
+  },
+  {
+    question: "4). What is the location of LiveOak Hall?",
+  },
+  {
+    question: "5). What is the location of USU Comp Lab?",
+  },
+  {
+    correct: "Answer Correct!!!",
+  },
+  {
+    wrong: "Wrong Answer!!",
+  }
+ 
+];
+ 
+function buildQuiz(){
+  const output = [];
+  questions.forEach((currentQuestion, questionNumber) => {
+   
+      if(questionNumber == 0)
+      {
+        output.push(
+        `<div class="question" style ="color:teal"> ${currentQuestion.question}`
+        );
+          
+        quizContainer.innerHTML = output.join('');
+        if(count == 0) {
+        CsunLibrary.addListener("dblclick", () => { correct(CsunLibrary) });
+        UniverityHall.addListener("dblclick", ()=> { Wrong(CsunLibrary)});
+        NordhoffHall.addListener("dblclick", ()=> { Wrong(CsunLibrary)});
+        LiveOakHall.addListener("dblclick", ()=> { Wrong(CsunLibrary)});
+        UsuCompLab.addListener("dblclick", ()=> { Wrong(CsunLibrary)});
+        map.addListener("dblclick", ()=> { Wrong(CsunLibrary)});
+        }
+        if(wrong1 == true)
+        {
+          output.push(
+        `<div class="wrong" style ="color:red"> ${questions[6].wrong}`
+        );
+        }
+        else{
+          output.push(
+        `<div class="correct" style ="color:green"> ${questions[5].correct}`
+        );
+        }
+        
+      }
+      else if( questionNumber == 1 && count >= 1) 
+      {
+        output.push(
+        `<div class="question" style ="color:teal"> ${currentQuestion.question}`
+        );
+
+        quizContainer.innerHTML = output.join('');
+       if (count ==  1) {
+        UniverityHall.addListener("dblclick", () => { correct(UniverityHall)});
+        CsunLibrary.addListener("dblclick", ()=> { Wrong(UniverityHall)});
+        NordhoffHall.addListener("dblclick", ()=> { Wrong(UniverityHall)});
+        LiveOakHall.addListener("dblclick", ()=> { Wrong(UniverityHall)});
+        UsuCompLab.addListener("dblclick", ()=> { Wrong(UniverityHall)});
+        map.addListener("dblclick", ()=> { Wrong(UniverityHall)});
+       }
+
+       if(wrong2 == true)
+        {
+          output.push(
+        `<div class="wrong" style ="color:red"> ${questions[6].wrong}`
+        );
+        }
+        else{
+          output.push(
+        `<div class="correct" style ="color:green"> ${questions[5].correct}`
+        );
+        }
+      
+      
+      }
+      else if (questionNumber == 2 && count >= 2)
+      {
+        output.push(
+        `<div class="question" style ="color:teal"> ${currentQuestion.question}`
+        );
+
+        quizContainer.innerHTML = output.join('');
+       if (count ==  2) {
+        NordhoffHall.addListener("dblclick", () => { correct(NordhoffHall)});
+        CsunLibrary.addListener("dblclick", ()=> { Wrong(NordhoffHall)});
+        UniverityHall.addListener("dblclick", ()=> { Wrong(NordhoffHall)});
+        LiveOakHall.addListener("dblclick", ()=> { Wrong(NordhoffHall)});
+        UsuCompLab.addListener("dblclick", ()=> { Wrong(NordhoffHall)});
+        map.addListener("dblclick", ()=> { Wrong(NordhoffHall)});
+       }
+
+       if(wrong3 == true)
+        {
+          output.push(
+        `<div class="wrong" style ="color:red"> ${questions[6].wrong}`
+        );
+        }
+        else{
+          output.push(
+        `<div class="correct" style ="color:green"> ${questions[5].correct}`
+        );
+        }
+
+      }
+      else if (questionNumber == 3 && count >= 3)
+      {
+        output.push(
+        `<div class="question" style ="color:teal"> ${currentQuestion.question}`
+        );
+
+        quizContainer.innerHTML = output.join('');
+        if (count ==  3) {
+        LiveOakHall.addListener("dblclick", () => { correct(LiveOakHall)});
+        CsunLibrary.addListener("dblclick", ()=> { Wrong(LiveOakHall)});
+        UniverityHall.addListener("dblclick", ()=> { Wrong(LiveOakHall)});
+        NordhoffHall.addListener("dblclick", ()=> { Wrong(LiveOakHall)});
+        UsuCompLab.addListener("dblclick", ()=> { Wrong(LiveOakHall)});
+        map.addListener("dblclick", ()=> { Wrong(LiveOakHall)});
+
+      }
+
+      if(wrong4 == true)
+        {
+          output.push(
+        `<div class="wrong" style ="color:red"> ${questions[6].wrong}`
+        );
+        }
+        else{
+          output.push(
+        `<div class="correct" style ="color:green"> ${questions[5].correct}`
+        );
+        }
+    }
+    else if (questionNumber == 4 && count >= 4)
+      {
+        output.push(
+        `<div class="question" style ="color:teal"> ${currentQuestion.question}`
+        );
+
+        quizContainer.innerHTML = output.join('');
+        if (count ==  4) {
+        UsuCompLab.addListener("dblclick", () => { correct(UsuCompLab)});
+        CsunLibrary.addListener("dblclick", ()=> { Wrong(UsuCompLab)});
+        UniverityHall.addListener("dblclick", ()=> { Wrong(UsuCompLab)});
+        NordhoffHall.addListener("dblclick", ()=> { Wrong(UsuCompLab)});
+        LiveOakHall.addListener("dblclick", ()=> { Wrong(UsuCompLab)});
+        map.addListener("dblclick", ()=> { Wrong(UsuCompLab)});
+      }
+
+      if(wrong5 == true && UsucompVisited == true)
+        {
+          output.push(
+        `<div class="wrong" style ="color:red"> ${questions[6].wrong}`
+        );
+        }
+        else if (wrong5 == false && UsucompVisited == true){
+          output.push(
+        `<div class="correct" style ="color:green"> ${questions[5].correct}`
+        );
+        }
+        quizContainer.innerHTML = output.join('');
+      }
+  });
+  if(count >= 4 && UsucompVisited == true)
+  {
+    Score();
+  }
+};
+  buildQuiz();
+  map.setOptions({draggableCursor:'pointer'});
+
+ function Score() {
+  document.getElementById("Score").innerHTML = 'A total of ' + score + ' out of 5 scored!';
+    let id = null;
+    const elem = document.getElementById("scoreContainer");
+    let pos = 0;
+    clearInterval(id);
+    id = setInterval(frame, 5);
+    function frame() {
+    if (pos == 300) {
+      clearInterval(id);
+    } else {
+      pos++;
+      elem.style.top = pos + 'px';
+    }
+ }
+ 
+}
+
+}
+</script>
+
+ </head>
+
+    <body>
+       <h1> <span style="color:red">CSUN</span> map quiz, please double click for each location: </h1>
+       <div id = "Quiz"></div>
+       <div id = "map" ></div>
+
+       <div id = "scoreContainer">
+       <h2 id = "Score"></h2>
+      </div>
+
+    </body>
+</html>
